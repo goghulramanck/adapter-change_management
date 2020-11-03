@@ -187,27 +187,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-     this.connector.get((data, error) => {
-         if(error){
-             callback(data, error);
-         }
-         else{
-             if(data.hasOwnProperty('body')){
-                 var body_json = Json.parse(data.body);
-                 var noofrec = body_json.result.length;
-                 var changetcket =[]
-                 var ticket = body_json.result;
-
-                 for (var i=0;i<noofrec; i++){
-                     changetcket.push({"change_ticket_number" : ticket[i].number, "active" : ticket[i].active, 
-                                    "priority" : ticket[i].priority,"description" : ticket[i].description, 
-                                    "work_start" : ticket[i].work_start, "work_end" : ticket[i].work_end,
-                                   "change_ticket_key" : ticket[i].sys_id});
-                 }
-                 callback(changetcket, error);
-             }
-         }
-        });
+     this.connector.get((data, error) => callback(data, error));
   }
 
   /**
@@ -226,22 +206,7 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post((data, error) => {
-         if(error){
-             callback(data, error)
-         }
-         else{
-             if (data.hasOwnProperty('body')) {
-              
-              var ticket = (JSON.parse(data.body).result);
-              var changetcket = {};
-              changetcket = ({"change_ticket_number" : ticket.number, "active" : ticket.active, "priority" : ticket.priority,
-                                "description" : ticket.description, "work_start" : ticket.work_start, 
-                                "work_end" : ticket.work_end,"change_ticket_key" : ticket.sys_id});
-              callback(changetcket, error); 
-            } 
-         }
-     });
+     this.connector.post((data, error) => callback(data, error));
   }
 }
 
